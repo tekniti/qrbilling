@@ -1,6 +1,6 @@
 angular.module('starter').controller('MainCtrl', function($scope, $cordovaBarcodeScanner) {
 
-  $scope.sysMessage = 'No scanning data';
+  $scope.sysMessage = 'No scanning';
 
   $scope.startScanning = function () {
     $cordovaBarcodeScanner

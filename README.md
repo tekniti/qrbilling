@@ -7,5 +7,12 @@ QR Billing App
  - bower install
  - ionic run android --livereload --consolelogs
  
+## Running the app
+tmuxifier can be very useful, you can use the following command:  
+`tmuxifier w qrbilling`  
+
+For more info, visit: [https://github.com/jimeh/tmuxifier](https://github.com/jimeh/tmuxifier)  
+
+ 
 
 
