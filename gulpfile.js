@@ -52,7 +52,9 @@ gulp.task('injectJs', ['moveJs'], function () {
   var target = gulp.src(paths.targetFolder + '/../index.html');
   var sources = gulp.src([paths.targetFolder + '/**/*.js'], options);
 
-  return target.pipe(inject(sources))
+  var injectOptions = {relative: true};
+
+  return target.pipe(inject(sources, injectOptions))
     .pipe(gulp.dest(paths.targetFolder + '/../'));
 });
 
