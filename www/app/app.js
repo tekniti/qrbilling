@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', [
+angular.module('qrBillingApp', [
   'ionic',
   'ngCordova',
   'ngCookies',
@@ -13,9 +13,49 @@ angular.module('starter', [
   'ui.bootstrap'
 ])
 
-.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
-  $urlRouterProvider
-    .otherwise('/');
+.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $stateProvider) {
+
+  // Here comes the routing
+
+  $stateProvider
+    .state('tabs', {
+      url: "/tab",
+      abstract: true,
+      templateUrl: "app/layout/tabs.html",
+      controller: 'TabsCtrl'
+    })
+    .state('tabs.main', {
+      url: '/main',
+      views: {
+        'main-tab': {
+          templateUrl: 'app/pages/main/main.html',
+          controller: 'MainCtrl'
+        }
+      }
+    })
+    .state('tabs.payment', {
+      url: '/payment',
+      views: {
+        'payment-tab': {
+          templateUrl: 'app/pages/payment/payment.html',
+          controller: 'PaymentCtrl'
+        }
+      }
+    })
+    .state('signin', {
+      url: '/signin',
+      templateUrl: 'app/pages/signin/signin.html',
+      controller: 'SigninCtrl'
+    })
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'app/pages/signup/signup.html',
+      controller: 'SignupCtrl'
+    });
+
+  // TODO: here we could read cookies, and sign in automatically?
+
+  $urlRouterProvider.otherwise('/signin');
 
   //$locationProvider.html5Mode(true);
   $httpProvider.interceptors.push('authInterceptor');
@@ -47,7 +87,7 @@ angular.module('starter', [
   };
 })
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope, $location, Auth) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -58,4 +98,14 @@ angular.module('starter', [
       StatusBar.styleDefault();
     }
   });
-})
+
+  // Redirect to login if route requires auth and you're not logged in
+  $rootScope.$on('$stateChangeStart', function (event, next) {
+    Auth.isLoggedInAsync(function(loggedIn) {
+      if (next.authenticate && !loggedIn) {
+        event.preventDefault();
+        $location.path('/login');
+      }
+    });
+  });
+});

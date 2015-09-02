@@ -13,6 +13,9 @@ tmuxifier can be very useful, you can use the following command:
 
 For more info, visit: [https://github.com/jimeh/tmuxifier](https://github.com/jimeh/tmuxifier)  
 
+
+## Deploy the app
+Use the `rhc` cli tool to work with openshift
  
 
 

@@ -61,7 +61,7 @@ gulp.task('injectJs', ['moveJs'], function () {
 // Jade
 gulp.task('moveJade', function() {
   return gulp.src(paths.devFolder + '/**/*.jade')
-    .pipe(jade())
+    .pipe(jade({pretty:true}))
     .pipe(gulp.dest(paths.targetFolder + '/'));
 });
 

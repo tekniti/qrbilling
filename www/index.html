@@ -26,22 +26,25 @@
 
     <!-- inject:js -->
     <script src="app/app.js"></script>
-    <script src="app/main.controller.js"></script>
+    <script src="app/auth/auth.service.js"></script>
+    <script src="app/auth/user.service.js"></script>
+    <script src="app/helpers/config.constant.js"></script>
+    <script src="app/layout/tabs.controller.js"></script>
+    <script src="app/pages/main/main.controller.js"></script>
+    <script src="app/pages/payment/payment.controller.js"></script>
+    <script src="app/pages/signin/signin.controller.js"></script>
+    <script src="app/pages/signup/signup.controller.js"></script>
     <!-- endinject -->
 
   </head>
-  <body ng-app="starter">
+  <body ng-app="qrBillingApp">
 
-    <ion-pane ng-controller="MainCtrl">
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
-      </ion-header-bar>
-      <ion-content>
-        <pre>
-          {{ sysMessage | json }}
-        </pre>
-        <button ng-click="startScanning()">Start scanning</button>
-      </ion-content>
-    </ion-pane>
+    <ion-nav-bar class="bar-positive">
+      <ion-nav-back-button class="button-icon ion-arrow-left-c">
+      </ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-nav-view></ion-nav-view>
+
+
   </body>
 </html>

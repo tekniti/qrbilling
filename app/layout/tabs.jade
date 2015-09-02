@@ -1,0 +1,8 @@
+h1 TABS
+ion-tabs.tabs-icon-top.tabs-positive
+  ion-tab(title='Home', icon='ion-home', href='#/tab/main')
+    ion-nav-view(name='main-tab')
+  ion-tab(title='Payment', icon='ion-card', href='#/tab/payment')
+    ion-nav-view(name='payment-tab')
+  ion-tab(title='Logout', icon='ion-log-out', ng-click='logout()')
+    ion-nav-view(name='logout-tab')
