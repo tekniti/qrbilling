@@ -10,7 +10,7 @@ angular.module('qrBillingApp')
         return;
       }
 
-      $scope.msg = 'undefined';
+      $scope.msg = undefined;
 
       Auth.login({
         email: user.email,

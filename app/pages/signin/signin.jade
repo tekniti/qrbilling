@@ -1,14 +1,15 @@
 ion-view(view-title='Sign in')
   ion-content
     .list
-      label.item.item-input
-        span.input-label Email
-        input(type='text', ng-model='user.email')
-      label.item.item-input
-        span.input-label Password
-        input(type='password', ng-model='user.password')
-      label.item(ng-if='msg') {{ msg }}
-      .padding
-        button.button.button-block.button-positive(ng-click='signIn(user)') Sign in
-        p.text-center
-          a(href='#/signup') Sign up
+      form(ng-submit='signIn(user)')
+        label.item.item-input
+          span.input-label Email
+          input(type='text', ng-model='user.email')
+        label.item.item-input
+          span.input-label Password
+          input(type='password', ng-model='user.password')
+        label.feedback.item(ng-if='msg') {{ msg }}
+        .padding
+          button.button.button-block.button-positive(type='submit') Sign in
+          p.text-center
+            a(href='#/signup') Sign up

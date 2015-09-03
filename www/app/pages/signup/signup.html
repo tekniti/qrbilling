@@ -2,20 +2,22 @@
 <ion-view view-title="Sign up">
   <ion-content>
     <div class="list">
-      <label class="item item-input"><span class="input-label">Name</span>
-        <input type="text" ng-model="user.name"/>
-      </label>
-      <label class="item item-input"><span class="input-label">Email</span>
-        <input type="text" ng-model="user.email"/>
-      </label>
-      <label class="item item-input"><span class="input-label">Password</span>
-        <input type="password" ng-model="user.password"/>
-      </label>
-      <label ng-if="msg" class="item">{{ msg }}</label>
-      <div class="padding">
-        <button ng-click="signUp()" class="button button-block button-positive">Sign up</button>
-        <p class="text-center"><a href="#/signin">Sign in</a></p>
-      </div>
+      <form ng-submit="signUp()">
+        <label class="item item-input"><span class="input-label">Name</span>
+          <input type="text" ng-model="user.name"/>
+        </label>
+        <label class="item item-input"><span class="input-label">Email</span>
+          <input type="text" ng-model="user.email"/>
+        </label>
+        <label class="item item-input"><span class="input-label">Password</span>
+          <input type="password" ng-model="user.password"/>
+        </label>
+        <label ng-if="msg" class="feedback item">{{ msg }}</label>
+        <div class="padding">
+          <button type="submit" class="button button-block button-positive">Sign up</button>
+          <p class="text-center"><a href="#/signin">Sign in</a></p>
+        </div>
+      </form>
     </div>
   </ion-content>
 </ion-view>

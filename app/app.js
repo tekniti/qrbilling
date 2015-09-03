@@ -10,7 +10,8 @@ angular.module('qrBillingApp', [
   'ngResource',
   'ngSanitize',
   'ui.router',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'angularPayments'
 ])
 
 .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $stateProvider) {
@@ -88,6 +89,8 @@ angular.module('qrBillingApp', [
 })
 
 .run(function($ionicPlatform, $rootScope, $location, Auth) {
+  Stripe.setPublishableKey('pk_test_ekwQxo3lq9GUGIMcgyDjRxDO');
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

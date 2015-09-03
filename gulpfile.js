@@ -67,13 +67,12 @@ gulp.task('moveJade', function() {
 
 // mySass
 gulp.task('moveSass', function(done) {
-  gulp.src(paths.targetFolder + '/**/*.scss')
+  gulp.src(paths.devFolder + '/**/*.scss')
     .pipe(sass({
       errLogToConsole: true
     }))
-    .pipe(gulp.dest('./www/css/'))
     .pipe(minifyCss())
-    .pipe(concat('builtstyle.min.css'))
+    .pipe(concat('style.css'))
     .pipe(gulp.dest('./www/css/'))
     .on('end', done);
 });

@@ -1,6 +1,28 @@
 
 <ion-view view-title="Payment Method">
-  <ion-content>
-    <h1>Payment Method</h1>
+  <ion-content class="payment-wrapper">
+    <label ng-show="!user.stripeCustomerId" class="feedback item">You didn't enter your credit card info yet.</label>
+    <label ng-show="user.stripeCustomerId" class="feedback item">You can update your card info whenever you wish.</label>
+    <div class="list">
+      <form stripe-form="handleStripe" name="myForm">
+        <label class="item item-input"><span class="input-label">Card Number</span>
+          <input type="text" ng-model="number" payments-validate="card" payments-format="card" payments-type-model="type" ng-class="myForm.number.$card.type"/>
+        </label>
+        <label class="item item-input"><span class="input-label">Expiration</span>
+          <!--pre {{ expiry | json }}-->
+          <input type="text" ng-model="expiry" payments-validate="expiry" payments-format="expiry"/>
+        </label>
+        <!--label.item.item-input-->
+        <!--  span.input-label Name on Card-->
+        <!--  input(type='text')-->
+        <label class="item item-input"><span class="input-label">CVC</span>
+          <input type="text" ng-model="cvc" payments-validate="cvc" payments-format="cvc" payments-type-model="type"/>
+        </label>
+        <label ng-if="msg" class="feedback item">{{ msg }}</label>
+        <div class="padding">
+          <button type="submit" class="button button-block button-positive">Update</button>
+        </div>
+      </form>
+    </div>
   </ion-content>
 </ion-view>
