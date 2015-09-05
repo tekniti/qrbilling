@@ -1,4 +1,24 @@
 ion-view(view-title='Home')
   ion-content
+    label.item(ng-click='startPayment()') Let's pay the bills!
     button.button.button-block.button-positive(ng-click="startScanning()") Scan QR code
+
+    label.item.feedback(ng-show='feedback') {{ feedback }}
+    .invoice-info-wrapper(ng-if='invoice')
+      .card
+        .item.item-text-wrap
+          strong ID:
+          |  {{ invoice._id }}
+        .item.item-text-wrap
+          strong Due Date:
+          |  {{ invoice.due_date | date:'yyyy-MM-dd' }}
+        .item.item-text-wrap
+          strong Amount:
+          |  ${{ invoice.amount / 100 }}
+        .item.item-text-wrap(ng-if='invoice.paid_date')
+          strong Paid Date:
+          |  ${{ invoice.paid_date | date:'yyyy-MM-dd' }}
+        // TODO: Do not show payment if we do not have user.stripeCustomerId
+        button.button.button-block.button-positive(ng-if='!invoice.paid_date', ng-click="startPayment()") Pay
+        label.item.feedback(ng-show='paymentFeedback') {{ paymentFeedback }}
 

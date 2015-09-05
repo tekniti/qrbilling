@@ -15,7 +15,6 @@ angular.module('qrBillingApp')
         $scope.msg = response.error.message;
       } else {
         var cardToken = response.id;
-        console.log(cardToken);
         var promise = PaymentService.saveCardData(cardToken);
 
         promise.success(function (response) {

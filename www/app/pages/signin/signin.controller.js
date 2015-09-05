@@ -22,7 +22,7 @@ angular.module('qrBillingApp')
       })
       .catch( function(err) {
         $scope.msg = 'Invalid email or password';
-        console.log(err.message);
+        console.log(err);
       });
     }
 

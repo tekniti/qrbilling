@@ -20,17 +20,20 @@ angular.module('qrBillingApp')
         var cb = callback || angular.noop;
         var deferred = $q.defer();
 
+        console.log(Config.apiUrl + '/auth/local');
         $http.post(Config.apiUrl + '/auth/local', {
           email: user.email,
           password: user.password
         }).
         success(function(data) {
+            console.log('SUCC', data);
           $cookieStore.put('token', data.token);
           currentUser = User.get();
           deferred.resolve(data);
           return cb();
         }).
         error(function(err) {
+            console.log('ERR', err);
           this.logout();
           deferred.reject(err);
           return cb(err);
