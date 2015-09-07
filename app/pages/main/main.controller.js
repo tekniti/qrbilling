@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('qrBillingApp')
-  .controller('MainCtrl', function ($scope, $cordovaBarcodeScanner, $http, Config) {
+  .controller('MainCtrl', function ($scope, $cordovaBarcodeScanner, $http, Config, Auth) {
     $scope.invoice = null;
     $scope.paymentFeedback = null;
     $scope.feedback = null;
+
+    $scope.user = Auth.getCurrentUser();
 
     $scope.startPayment = function () {
       $http.post(Config.apiUrl + '/api/invoices/pay/' + $scope.invoice._id)

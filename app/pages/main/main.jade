@@ -18,7 +18,9 @@ ion-view(view-title='Home')
         .item.item-text-wrap(ng-if='invoice.paid_date')
           strong Paid Date:
           |  ${{ invoice.paid_date | date:'yyyy-MM-dd' }}
-        // TODO: Do not show payment if we do not have user.stripeCustomerId
+        label.item.feedback(ng-show='!user.stripeCustomerId') Please add your&nbsp;
+          a(href='#/payment') Payment Info
+          | first.
         button.button.button-block.button-positive(ng-if='!invoice.paid_date', ng-click="startPayment()") Pay
         label.item.feedback(ng-show='paymentFeedback') {{ paymentFeedback }}
 

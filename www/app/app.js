@@ -11,12 +11,14 @@ angular.module('qrBillingApp', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
-  'angularPayments'
+  'angularPayments',
+  'qrBillingConfig'
 ])
 
-.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $stateProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
   // Here comes the routing
+    console.log(0);
 
   $stateProvider
     .state('tabs', {

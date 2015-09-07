@@ -10,7 +10,7 @@
         <div class="item item-text-wrap"><strong>Due Date:</strong> {{ invoice.due_date | date:'yyyy-MM-dd' }}</div>
         <div class="item item-text-wrap"><strong>Amount:</strong> ${{ invoice.amount / 100 }}</div>
         <div ng-if="invoice.paid_date" class="item item-text-wrap"><strong>Paid Date:</strong> ${{ invoice.paid_date | date:'yyyy-MM-dd' }}</div>
-        <!-- TODO: Do not show payment if we do not have user.stripeCustomerId-->
+        <label ng-show="!user.stripeCustomerId" class="item feedback">Please add your&nbsp;<a href="#/payment">Payment Info</a>first.</label>
         <button ng-if="!invoice.paid_date" ng-click="startPayment()" class="button button-block button-positive">Pay</button>
         <label ng-show="paymentFeedback" class="item feedback">{{ paymentFeedback }}</label>
       </div>

@@ -1,0 +1,25 @@
+{
+  "development": {
+    "Config": {
+      "apiUrl": "http://localhost:9000"
+   }
+  },
+
+  "development-device": {
+    "Config": {
+      "apiUrl": "http://some-ip:9000"
+    }
+  },
+
+  "staging": {
+    "Config": {
+      "apiUrl": "http://qrbillingweb-qrbilling.rhcloud.com"
+    }
+  },
+
+  "production": {
+    "Config": {
+      "apiUrl": "http://qrbillingweb-qrbilling.rhcloud.com"
+    }
+  }
+}

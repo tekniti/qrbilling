@@ -8,6 +8,7 @@ var jade = require('gulp-jade');
 var sass = require('gulp-sass');
 var path = require('path');
 var minifyCss = require('gulp-minify-css');
+var ngConstant = require('gulp-ng-constant');
 
 
 var paths = {
@@ -20,8 +21,28 @@ var paths = {
 /** MY PART **/
 
 gulp.task('default', ['sass']);
-gulp.task('build', ['clean', 'moveJs', 'injectJs', 'moveJade', 'moveSass']);
+gulp.task('build', ['clean', 'moveJs', 'ngConstant', 'injectJs', 'moveJade', 'moveSass']);
 
+gulp.task('watch', ['build'], function() {
+  gulp.watch(paths.sass, ['sass']);
+  gulp.watch(paths.devFolder + '/**/*.js', ['moveJs']);
+  gulp.watch(paths.devFolder + '/**/*.jade', ['moveJade']);
+  gulp.watch(paths.devFolder + '/**/*.scss', ['moveSass']);
+});
+
+// We use the ENV variable to set the environment
+// You can set it like this: ENV=development gulp configConstants
+gulp.task('ngConstant', ['clean'], function () {
+  var myConfig = require(paths.devFolder + '/ngConstants.json');
+  var envConfig = myConfig[process.env.ENV || 'development'];
+
+  return ngConstant({
+    name: 'qrBillingConfig',
+    constants: envConfig,
+    stream: true
+  })
+    .pipe(gulp.dest(paths.targetFolder + '/'));
+});
 
 // Clean
 gulp.task('clean', function() {
@@ -37,7 +58,7 @@ gulp.task('clean', function() {
 });
 
 // Copy JS
-gulp.task('moveJs', function() {
+gulp.task('moveJs', ['clean'], function() {
   return gulp.src(paths.devFolder + '/**/*.js')
     .pipe(gulp.dest(paths.targetFolder + '/'));
 });
@@ -59,14 +80,14 @@ gulp.task('injectJs', ['moveJs'], function () {
 });
 
 // Jade
-gulp.task('moveJade', function() {
+gulp.task('moveJade', ['clean'], function() {
   return gulp.src(paths.devFolder + '/**/*.jade')
     .pipe(jade({pretty:true}))
     .pipe(gulp.dest(paths.targetFolder + '/'));
 });
 
 // mySass
-gulp.task('moveSass', function(done) {
+gulp.task('moveSass', ['clean'], function(done) {
   gulp.src(paths.devFolder + '/**/*.scss')
     .pipe(sass({
       errLogToConsole: true
@@ -78,14 +99,6 @@ gulp.task('moveSass', function(done) {
 });
 
 /** END OF MY PART **/
-
-
-gulp.task('watch', ['build'], function() {
-  gulp.watch(paths.sass, ['sass']);
-  gulp.watch(paths.devFolder + '/**/*.js', ['moveJs']);
-  gulp.watch(paths.devFolder + '/**/*.jade', ['moveJade']);
-  gulp.watch(paths.devFolder + '/**/*.scss', ['moveSass']);
-});
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
