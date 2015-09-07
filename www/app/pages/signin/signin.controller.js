@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('qrBillingApp')
-  .controller('SigninCtrl', function ($scope, Auth, $location) {
+  .controller('SigninCtrl', function ($scope, Auth, $state) {
 
 
     $scope.signIn = function (user) {
@@ -18,11 +18,11 @@ angular.module('qrBillingApp')
       })
       .then( function() {
         // Logged in, redirect to home
-        $location.path('/tab/main');
+        $state.go('tabs.main');
       })
       .catch( function(err) {
         $scope.msg = 'Invalid email or password';
-        console.log(err);
+        console.log('error', err);
       });
     }
 

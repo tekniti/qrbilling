@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('qrBillingApp')
-  .controller('TabsCtrl', function ($scope, Auth, $location) {
+  .controller('TabsCtrl', function ($scope, Auth, $state) {
     $scope.isLoggedIn = function() {return true}; //Auth.isLoggedIn;
 
     $scope.logout = function () {
       Auth.logout();
-      $location.path('/login');
+      $state.go('signin');
     };
   });

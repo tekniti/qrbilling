@@ -15,10 +15,9 @@ angular.module('qrBillingApp', [
   'qrBillingConfig'
 ])
 
-.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
   // Here comes the routing
-    console.log(0);
 
   $stateProvider
     .state('tabs', {
@@ -56,15 +55,12 @@ angular.module('qrBillingApp', [
       controller: 'SignupCtrl'
     });
 
-  // TODO: here we could read cookies, and sign in automatically?
-
   $urlRouterProvider.otherwise('/signin');
 
-  //$locationProvider.html5Mode(true);
   $httpProvider.interceptors.push('authInterceptor');
 })
 
-.factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
+.factory('authInterceptor', function ($rootScope, $q, $cookieStore, $injector) {
   return {
     // Add authorization token to headers
     request: function (config) {
@@ -78,7 +74,7 @@ angular.module('qrBillingApp', [
     // Intercept 401s and redirect you to login
     responseError: function(response) {
       if(response.status === 401) {
-        $location.path('/login');
+        $injector.get('$state').go('signin');
         // remove any stale tokens
         $cookieStore.remove('token');
         return $q.reject(response);
@@ -90,7 +86,7 @@ angular.module('qrBillingApp', [
   };
 })
 
-.run(function($ionicPlatform, $rootScope, $location, Auth) {
+.run(function($ionicPlatform, $rootScope, $state, Auth) {
   Stripe.setPublishableKey('pk_test_ekwQxo3lq9GUGIMcgyDjRxDO');
 
   $ionicPlatform.ready(function() {
@@ -109,7 +105,7 @@ angular.module('qrBillingApp', [
     Auth.isLoggedInAsync(function(loggedIn) {
       if (next.authenticate && !loggedIn) {
         event.preventDefault();
-        $location.path('/login');
+        $state.go('signin');
       }
     });
   });

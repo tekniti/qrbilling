@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('qrBillingApp').controller('SignupCtrl', function ($scope, Auth, $location) {
+angular.module('qrBillingApp').controller('SignupCtrl', function ($scope, Auth, $state) {
 
   $scope.user = {};
 
@@ -13,11 +13,11 @@ angular.module('qrBillingApp').controller('SignupCtrl', function ($scope, Auth, 
     })
     .then( function() {
       // Logged in, redirect to home
-      $location.path('/tab/main');
+      $state.go('tabs.main');
     })
     .catch( function(err) {
       $scope.msg = 'Invalid input';
-        console.log(err.message);
+      //console.log(err.message);
     });
 
   };

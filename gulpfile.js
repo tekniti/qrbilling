@@ -58,7 +58,7 @@ gulp.task('clean', function() {
 });
 
 // Copy JS
-gulp.task('moveJs', ['clean'], function() {
+gulp.task('moveJs', function() {
   return gulp.src(paths.devFolder + '/**/*.js')
     .pipe(gulp.dest(paths.targetFolder + '/'));
 });
@@ -80,14 +80,14 @@ gulp.task('injectJs', ['moveJs'], function () {
 });
 
 // Jade
-gulp.task('moveJade', ['clean'], function() {
+gulp.task('moveJade', function() {
   return gulp.src(paths.devFolder + '/**/*.jade')
     .pipe(jade({pretty:true}))
     .pipe(gulp.dest(paths.targetFolder + '/'));
 });
 
 // mySass
-gulp.task('moveSass', ['clean'], function(done) {
+gulp.task('moveSass', function(done) {
   gulp.src(paths.devFolder + '/**/*.scss')
     .pipe(sass({
       errLogToConsole: true

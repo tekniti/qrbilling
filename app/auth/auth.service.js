@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('qrBillingApp')
-  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q, Config) {
+  .factory('Auth', function Auth($rootScope, $http, User, $cookieStore, $q, Config) {
     var currentUser = {};
     if($cookieStore.get('token')) {
       currentUser = User.get();
