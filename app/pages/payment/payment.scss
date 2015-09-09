@@ -6,4 +6,10 @@
     border-radius: 5px;
     padding: 0 6px 0 6px;
   }
+  i.icon.ion-trash-a {
+    cursor: pointer;
+    &:hover {
+      color: #ff0000;
+    }
+  }
 }

@@ -1,26 +1,20 @@
 ion-view(view-title='Payment Method')
   ion-content.payment-wrapper
-    label.feedback.item(ng-show='!user.stripeCustomerId') You didn't enter your credit card info yet.
-    label.feedback.item(ng-show='user.stripeCustomerId') You can update your card info whenever you wish.
+    .button.button-full.button-stable(ng-show='showAddForm', ng-click='showAddForm=false;') Cancel
+    .button.button-full.button-balanced(ng-show='!showAddForm', ng-click='showAddForm=true;')
+      strong
+        i.ion-plus-circled
+        |  Add card
+    .list(ng-show='showAddForm')
+      include ./cardForm.jade
+
     .list
-      form(stripe-form='handleStripe', name='myForm')
-        label.item.item-input
-          span.input-label Card Number
-          input(type='text', ng-model='number', payments-validate='card', payments-format='card', payments-type-model='type', ng-class='myForm.number.$card.type')
+      label.item.item-stable
+        strong Available cards
+      .item.item-icon-left.item-icon-right(ng-repeat='(cardIndex, card) in cards')
+        i.icon.ion-card
+        | {{ card.brand }}, ****{{ card.last4 }}
+        i.icon.ion-trash-a(ng-click='deleteCard(card)')
 
-        label.item.item-input
-          span.input-label Expiration
-          //pre {{ expiry | json }}
-          input(type='text', ng-model='expiry', payments-validate='expiry', payments-format='expiry')
 
-        //label.item.item-input
-        //  span.input-label Name on Card
-        //  input(type='text')
 
-        label.item.item-input
-          span.input-label CVC
-          input(type='text', ng-model='cvc', payments-validate='cvc', payments-format='cvc', payments-type-model='type')
-
-        label.feedback.item(ng-if='msg') {{ msg }}
-        .padding
-          button.button.button-block.button-positive(type='submit') Update

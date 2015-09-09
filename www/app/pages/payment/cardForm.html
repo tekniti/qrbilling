@@ -1,0 +1,18 @@
+
+<form stripe-form="cardTokenCallback" name="myForm" ng-submit="cardModel.addInProgress=true;">
+  <label class="item item-input"><span class="input-label">Card Number</span>
+    <input type="text" ng-model="number" payments-validate="card" payments-format="card" payments-type-model="type" ng-class="myForm.number.$card.type"/>
+  </label>
+  <label class="item item-input"><span class="input-label">Expiration</span>
+    <input type="text" ng-model="expiry" payments-validate="expiry" payments-format="expiry"/>
+  </label>
+  <label class="item item-input"><span class="input-label">CVC</span>
+    <input type="text" ng-model="cvc" payments-validate="cvc" payments-format="cvc" payments-type-model="type"/>
+  </label>
+  <label ng-show="msg" class="item item-stable">{{ msg }}</label>
+  <div class="padding">
+    <button type="submit" ng-disabled="cardModel.addInProgress" class="button button-block button-positive">Add&nbsp;
+      <ion-spinner ng-show="cardModel.addInProgress" icon="ripple" class="spinner spinner-in-button spinner-light"></ion-spinner>
+    </button>
+  </div>
+</form>

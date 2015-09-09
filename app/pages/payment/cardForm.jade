@@ -1,0 +1,14 @@
+form(stripe-form='cardTokenCallback', name='myForm', ng-submit='cardModel.addInProgress=true;')
+  label.item.item-input
+    span.input-label Card Number
+    input(type='text', ng-model='number', payments-validate='card', payments-format='card', payments-type-model='type', ng-class='myForm.number.$card.type')
+  label.item.item-input
+    span.input-label Expiration
+    input(type='text', ng-model='expiry', payments-validate='expiry', payments-format='expiry')
+  label.item.item-input
+    span.input-label CVC
+    input(type='text', ng-model='cvc', payments-validate='cvc', payments-format='cvc', payments-type-model='type')
+  label.item.item-stable(ng-show='msg') {{ msg }}
+  .padding
+    button.button.button-block.button-positive(type='submit', ng-disabled='cardModel.addInProgress') Add&nbsp;
+      ion-spinner.spinner.spinner-in-button.spinner-light(ng-show='cardModel.addInProgress', icon='ripple')

@@ -1,18 +1,30 @@
 
 <ion-view view-title="Home">
   <ion-content>
-    <label ng-click="startPayment()" class="item">Let's pay the bills!</label>
+    <label class="item">Let's pay the bills!</label>
     <button ng-click="startScanning()" class="button button-block button-positive">Scan QR code</button>
+    <!--pre {{ user | json }}-->
     <label ng-show="feedback" class="item feedback">{{ feedback }}</label>
     <div ng-if="invoice" class="invoice-info-wrapper">
       <div class="card">
         <div class="item item-text-wrap"><strong>ID:</strong> {{ invoice._id }}</div>
         <div class="item item-text-wrap"><strong>Due Date:</strong> {{ invoice.due_date | date:'yyyy-MM-dd' }}</div>
         <div class="item item-text-wrap"><strong>Amount:</strong> ${{ invoice.amount / 100 }}</div>
-        <div ng-if="invoice.paid_date" class="item item-text-wrap"><strong>Paid Date:</strong> ${{ invoice.paid_date | date:'yyyy-MM-dd' }}</div>
-        <label ng-show="!user.stripeCustomerId" class="item feedback">Please add your&nbsp;<a href="#/payment">Payment Info</a>first.</label>
-        <button ng-if="!invoice.paid_date" ng-click="startPayment()" class="button button-block button-positive">Pay</button>
-        <label ng-show="paymentFeedback" class="item feedback">{{ paymentFeedback }}</label>
+        <div ng-if="invoice.paid_date" class="item item-text-wrap"><strong>Paid Date:</strong> {{ invoice.paid_date | date:'yyyy-MM-dd' }}</div>
+        <!-- If no card available-->
+        <button ng-show="cards.length===0" ng-click="navigateTo('tabs.payment')" class="button button-block button-positive">Add Card Info</button>
+        <!-- Select card-->
+        <label ng-show="cards.length &gt; 0" class="item item-stable item-input item-select">
+          <div class="input-label"><strong>Select credit card</strong></div>
+          <select ng-model="selectedCardId">
+            <option ng-repeat="(cardIndex, card) in cards" value="{{card.id}}">{{ card.brand }}, ****{{ card.last4 }}</option>
+          </select>
+        </label>
+        <!-- Pay button-->
+        <button ng-show="cards.length &gt; 0 &amp;&amp; !invoice.paid_date" ng-click="startPayment(selectedCardId)" ng-disabled="!selectedCardId || paymentInProgress" class="button button-block button-positive">Pay&nbsp;
+          <ion-spinner ng-show="paymentInProgress" icon="ripple" class="spinner spinner-in-button spinner-light"></ion-spinner>
+        </button>
+        <label ng-show="paymentFeedback" class="item item-stable">{{ paymentFeedback }}</label>
       </div>
     </div>
   </ion-content>

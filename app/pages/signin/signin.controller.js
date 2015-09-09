@@ -2,6 +2,10 @@
 
 angular.module('qrBillingApp')
   .controller('SigninCtrl', function ($scope, Auth, $state) {
+    $scope.user = {
+      email: 'test@test.com',
+      password: 'test',
+    };
 
 
     $scope.signIn = function (user) {
@@ -21,8 +25,8 @@ angular.module('qrBillingApp')
         $state.go('tabs.main');
       })
       .catch( function(err) {
+        console.log('Catched error at signin process: ', err);
         $scope.msg = 'Invalid email or password';
-        console.log('error', err);
       });
     }
 

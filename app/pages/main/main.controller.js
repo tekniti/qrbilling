@@ -1,20 +1,43 @@
 'use strict';
 
 angular.module('qrBillingApp')
-  .controller('MainCtrl', function ($scope, $cordovaBarcodeScanner, $http, Config, Auth) {
+  .controller('MainCtrl', function ($scope, $cordovaBarcodeScanner, $state, $http, Config, Auth, PaymentService) {
+
+    $scope.cards = PaymentService.cards;
+    $scope.paymentInProgress = null;
+
     $scope.invoice = null;
+    // TEST - to show payment option
+    $scope.invoice = {
+      _id: '55eaab46cda54f8c1403fd8e',
+      due_ate: new Date().getTime(),
+      amount: '100',
+    };
+
     $scope.paymentFeedback = null;
     $scope.feedback = null;
 
+
+    $scope.navigateTo = function (stateString) {
+      $state.go(stateString);
+    };
+
+    $scope.$watch(Auth.getCurrentUser, function (newValue, oldValue) {
+      $scope.user = newValue;
+    });
+
     $scope.user = Auth.getCurrentUser();
 
-    $scope.startPayment = function () {
-      $http.post(Config.apiUrl + '/api/invoices/pay/' + $scope.invoice._id)
+    $scope.startPayment = function (selectedCardId) {
+      $scope.paymentInProgress = true;
+      $http.post(Config.apiUrl + '/api/invoices/pay/' + $scope.invoice._id, { cardId: selectedCardId })
         .success(function (response) {
           $scope.invoice = response;
+          $scope.paymentInProgress = false;
           $scope.paymentFeedback = 'Successfully paid';
         })
         .error(function (response) {
+          $scope.paymentInProgress = false;
           $scope.paymentFeedback = 'Sorry, something failed.';
         });
     };

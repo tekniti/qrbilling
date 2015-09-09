@@ -1,7 +1,8 @@
 ion-view(view-title='Home')
   ion-content
-    label.item(ng-click='startPayment()') Let's pay the bills!
+    label.item Let's pay the bills!
     button.button.button-block.button-positive(ng-click="startScanning()") Scan QR code
+    //pre {{ user | json }}
 
     label.item.feedback(ng-show='feedback') {{ feedback }}
     .invoice-info-wrapper(ng-if='invoice')
@@ -17,10 +18,24 @@ ion-view(view-title='Home')
           |  ${{ invoice.amount / 100 }}
         .item.item-text-wrap(ng-if='invoice.paid_date')
           strong Paid Date:
-          |  ${{ invoice.paid_date | date:'yyyy-MM-dd' }}
-        label.item.feedback(ng-show='!user.stripeCustomerId') Please add your&nbsp;
-          a(href='#/payment') Payment Info
-          | first.
-        button.button.button-block.button-positive(ng-if='!invoice.paid_date', ng-click="startPayment()") Pay
-        label.item.feedback(ng-show='paymentFeedback') {{ paymentFeedback }}
+          |  {{ invoice.paid_date | date:'yyyy-MM-dd' }}
 
+        // If no card available
+        button.button.button-block.button-positive(ng-show='cards.length===0',
+          ng-click="navigateTo('tabs.payment')") Add Card Info
+
+        // Select card
+        label.item.item-stable.item-input.item-select(ng-show='cards.length > 0')
+          .input-label
+            strong Select credit card
+          select(ng-model='selectedCardId')
+            option(ng-repeat='(cardIndex, card) in cards', value='{{card.id}}') {{ card.brand }}, ****{{ card.last4 }}
+
+
+        // Pay button
+        button.button.button-block.button-positive(ng-show='cards.length > 0 && !invoice.paid_date',
+          ng-click='startPayment(selectedCardId)',
+          ng-disabled='!selectedCardId || paymentInProgress') Pay&nbsp;
+           ion-spinner.spinner.spinner-in-button.spinner-light(ng-show='paymentInProgress', icon='ripple')
+
+        label.item.item-stable(ng-show='paymentFeedback') {{ paymentFeedback }}

@@ -1,28 +1,30 @@
 
 <ion-view view-title="Payment Method">
   <ion-content class="payment-wrapper">
-    <label ng-show="!user.stripeCustomerId" class="feedback item">You didn't enter your credit card info yet.</label>
-    <label ng-show="user.stripeCustomerId" class="feedback item">You can update your card info whenever you wish.</label>
-    <div class="list">
-      <form stripe-form="handleStripe" name="myForm">
+    <div ng-show="showAddForm" ng-click="showAddForm=false;" class="button button-full button-stable">Cancel</div>
+    <div ng-show="!showAddForm" ng-click="showAddForm=true;" class="button button-full button-balanced"><strong><i class="ion-plus-circled"></i> Add card</strong></div>
+    <div ng-show="showAddForm" class="list">
+      <form stripe-form="cardTokenCallback" name="myForm" ng-submit="cardModel.addInProgress=true;">
         <label class="item item-input"><span class="input-label">Card Number</span>
           <input type="text" ng-model="number" payments-validate="card" payments-format="card" payments-type-model="type" ng-class="myForm.number.$card.type"/>
         </label>
         <label class="item item-input"><span class="input-label">Expiration</span>
-          <!--pre {{ expiry | json }}-->
           <input type="text" ng-model="expiry" payments-validate="expiry" payments-format="expiry"/>
         </label>
-        <!--label.item.item-input-->
-        <!--  span.input-label Name on Card-->
-        <!--  input(type='text')-->
         <label class="item item-input"><span class="input-label">CVC</span>
           <input type="text" ng-model="cvc" payments-validate="cvc" payments-format="cvc" payments-type-model="type"/>
         </label>
-        <label ng-if="msg" class="feedback item">{{ msg }}</label>
+        <label ng-show="msg" class="item item-stable">{{ msg }}</label>
         <div class="padding">
-          <button type="submit" class="button button-block button-positive">Update</button>
+          <button type="submit" ng-disabled="cardModel.addInProgress" class="button button-block button-positive">Add&nbsp;
+            <ion-spinner ng-show="cardModel.addInProgress" icon="ripple" class="spinner spinner-in-button spinner-light"></ion-spinner>
+          </button>
         </div>
       </form>
+    </div>
+    <div class="list">
+      <label class="item item-stable"><strong>Available cards</strong></label>
+      <div ng-repeat="(cardIndex, card) in cards" class="item item-icon-left item-icon-right"><i class="icon ion-card"></i>{{ card.brand }}, ****{{ card.last4 }}<i ng-click="deleteCard(card)" class="icon ion-trash-a"></i></div>
     </div>
   </ion-content>
 </ion-view>
