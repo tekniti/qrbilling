@@ -11,6 +11,7 @@ angular.module('qrBillingApp')
     $scope.invoice = {
       _id: '55eaab46cda54f8c1403fd8e',
       due_ate: new Date().getTime(),
+      paid_date: new Date().getTime(),
       amount: '100',
     };
 

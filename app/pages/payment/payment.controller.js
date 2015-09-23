@@ -50,6 +50,7 @@ angular.module('qrBillingApp')
         }).error(function (response) {
           $scope.cardModel.addInProgress = false;
           $scope.msg = 'Something, somewhere failed, please try again later.';
+          console.log(response );
         });
       }
     };

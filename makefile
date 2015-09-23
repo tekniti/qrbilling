@@ -1,15 +1,21 @@
-deploy:
+gulp-build:
 	ENV=staging gulp build
+	gulp build
+
+
+deploy:
+	make gulp-build
 	ionic build android
 	ionic build ios
 	ionic upload
 
 deploy-ios:
-	ENV=staging gulp build
+	make gulp-build
 	ionic build ios
 	ionic upload
 
 deploy-android:
-	ENV=staging gulp build
+	make gulp-build
+	gulp build
 	ionic build android
 	ionic upload
