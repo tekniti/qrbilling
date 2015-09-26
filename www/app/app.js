@@ -9,6 +9,7 @@ angular.module('qrBillingApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
+  'ngIOS9UIWebViewPatch',
   'ui.router',
   'ui.bootstrap',
   'angularPayments',

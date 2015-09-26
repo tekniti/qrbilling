@@ -1,11 +1,37 @@
 'use strict';
 
 angular.module('qrBillingApp')
-  .controller('MainCtrl', function ($scope, $cordovaBarcodeScanner, $state, $http, Config, Auth, PaymentService) {
+  .controller('MainCtrl', function (
+    $cordovaBarcodeScanner,
+    $cordovaTouchID,
+    $scope,
+    $state,
+    $http,
+    Config,
+    Auth,
+    PaymentService
+  ) {
+
+    $cordovaTouchID.checkSupport().then(function() {
+      // success, TouchID supported
+    }, function (error) {
+      if (error) {
+        console.log('checkSupport cb', error);
+        return;
+      }
+
+      $cordovaTouchID.authenticate("Authenticate to pay").then(function() {
+        // success
+        console.log('success');
+      }, function () {
+        // error
+        console.log('error');
+      });
+    });
+
 
     $scope.cards = PaymentService.cards;
     $scope.paymentInProgress = null;
-
     $scope.invoice = null;
     // TEST - to show payment option
     $scope.invoice = {
