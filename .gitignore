@@ -4,4 +4,4 @@
 .idea/
 node_modules/
 platforms/
-plugins/
+#plugins/
