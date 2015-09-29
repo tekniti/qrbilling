@@ -1,0 +1,17 @@
+
+<ion-view view-title="Settings">
+  <ion-content class="settings-wrapper">
+    <label class="item item-stable item-input item-select">
+      <div class="input-label"><strong>Auth Method</strong></div>
+      <select ng-model="selectedAuthMethod">
+        <option ng-repeat="method in availableMethods" value="{{ method.value }}">{{ method.title }}</option>
+        <!--option(value='fingerprint') Fingerprint-->
+        <!--option(ng-repeat='(cardIndex, card) in cards', value='{{card.id}}')-->
+      </select>
+    </label>
+    <label ng-if="selectedAuthMethod===&quot;pin&quot;" class="item item-input"><span class="input-label">New PIN</span>
+      <input type="text" ng-model="newPin"/>
+    </label>
+    <button ng-click="saveChanges()" class="button button-block button-positive">Save and continue</button>
+  </ion-content>
+</ion-view>

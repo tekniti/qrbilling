@@ -5,6 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('qrBillingApp', [
   'ionic',
+  'ionic.utils',
   'ngCordova',
   'ngCookies',
   'ngResource',
@@ -42,6 +43,15 @@ angular.module('qrBillingApp', [
         'payment-tab': {
           templateUrl: 'app/pages/payment/payment.html',
           controller: 'PaymentCtrl'
+        }
+      }
+    })
+    .state('tabs.settings', {
+      url: '/settings',
+      views: {
+        'settings-tab': {
+          templateUrl: 'app/pages/settings/settings.html',
+          controller: 'SettingsCtrl'
         }
       }
     })
@@ -87,7 +97,7 @@ angular.module('qrBillingApp', [
   };
 })
 
-.run(function($ionicPlatform, $rootScope, $state, Auth) {
+.run(function($ionicPlatform, $rootScope, $state, Auth, PaymentAuth) {
   Stripe.setPublishableKey('pk_test_ekwQxo3lq9GUGIMcgyDjRxDO');
 
   $ionicPlatform.ready(function() {
@@ -103,10 +113,20 @@ angular.module('qrBillingApp', [
 
   // Redirect to login if route requires auth and you're not logged in
   $rootScope.$on('$stateChangeStart', function (event, next) {
+    //console.log('stateChangeStart', event, next);
+
+    //console.log(loggedIn, !PaymentAuth.getMethod());
+    //  //PaymentAuth.setMethod('');
+
     Auth.isLoggedInAsync(function(loggedIn) {
       if (next.authenticate && !loggedIn) {
         event.preventDefault();
         $state.go('signin');
+      } else if (next.name !== 'tabs.settings' && loggedIn && !PaymentAuth.getMethod()) {
+        console.log('no paymentMethod');
+        $state.go('tabs.settings');
+        event.preventDefault();
+        //return false;
       }
     });
   });

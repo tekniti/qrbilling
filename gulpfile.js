@@ -20,7 +20,7 @@ var paths = {
 
 /** MY PART **/
 
-gulp.task('default', ['sass']);
+gulp.task('default', ['watch']);
 gulp.task('build', ['clean', 'moveJs', 'ngConstant', 'injectJs', 'moveJade', 'moveSass']);
 
 gulp.task('watch', ['build'], function() {

@@ -1,0 +1,13 @@
+ion-view(view-title='Settings')
+  ion-content.settings-wrapper
+    label.item.item-stable.item-input.item-select
+      .input-label
+        strong Auth Method
+      select(ng-model='selectedAuthMethod')
+        option(ng-repeat='method in availableMethods', value='{{ method.value }}') {{ method.title }}
+        //option(value='fingerprint') Fingerprint
+        //option(ng-repeat='(cardIndex, card) in cards', value='{{card.id}}')
+    label.item.item-input(ng-if='selectedAuthMethod==="pin"')
+      span.input-label New PIN
+      input(type='text', ng-model='newPin')
+    button.button.button-block.button-positive(ng-click="saveChanges()") Save and continue
