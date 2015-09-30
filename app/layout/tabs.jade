@@ -1,13 +1,12 @@
 ion-tabs.tabs-icon-top.tabs-positive
-  pre {{ paymentAuthData.authMethod | json }}
-  ion-tab(title='Home', icon='ion-home', href='#/tab/main', hidden='{{ 2>1 ? "false":"true" }}')
+
+  ion-tab(title='Home', icon='ion-home', href='#/tab/main', ng-if='paymentAuthData.authMethod')
     ion-nav-view(name='main-tab')
-  ion-tab(title='Card Info', icon='ion-card', href='#/tab/payment', hidden='!!paymentAuthData.authMethod')
+  ion-tab(title='Card Info', icon='ion-card', href='#/tab/payment', ng-if='paymentAuthData.authMethod')
     ion-nav-view(name='payment-tab')
 
-  ion-tab(title='Settings', icon='ion-android-settings', href='#/tab/settings')
+  ion-tab(title='Settings', icon='ion-android-settings', ng-if='true', href='#/tab/settings')
     ion-nav-view(name='settings-tab')
 
-
-  ion-tab(title='Logout', icon='ion-log-out', ng-click='logout()')
+  ion-tab(title='Logout', icon='ion-log-out', ng-if='true', ng-click='logout()')
     ion-nav-view(name='logout-tab')

@@ -6,10 +6,22 @@ angular.module('qrBillingApp')
       id: '@_id'
     },
     {
+      comparePin: {
+        method: 'POST',
+        params: {
+          controller: 'comparePin'
+        }
+      },
       changePassword: {
         method: 'PUT',
         params: {
           controller:'password'
+        }
+      },
+      setPin: {
+        method: 'PUT',
+        params: {
+          controller:'pin'
         }
       },
       get: {

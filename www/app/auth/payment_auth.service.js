@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('qrBillingApp')
-  .service('PaymentAuth', function ($localstorage, $ionicPopup, $cordovaTouchID) {
+  .service('PaymentAuth', function ($localstorage, $ionicPopup, $cordovaTouchID, Auth, User) {
 
     this.data = {
       authenticated: false,
@@ -27,26 +27,29 @@ angular.module('qrBillingApp')
     };
 
     this.pinAuth = function (outerScope, resolve, reject) {
+      outerScope.pinData = {
+        data: undefined
+      };
       var pinPopup = $ionicPopup.show({
-        template: '<input type="password" ng-model="data.pin">',
-        title: 'Enter PIN',
+        template: '<input type="password" ng-model="pinData.data">',
+        title: 'Enter your original PIN',
         scope: outerScope,
         buttons: [
           { text: 'Cancel' },
           {
-            text: '<b>Save</b>',
+            text: '<b>Confirm</b>',
             type: 'button-positive',
             onTap: function(e) {
-              return outerScope.data.pin;
+              return outerScope.pinData.data;
             }
           }
         ]
       });
 
-      pinPopup.then(function(res) {
-        if (res) {
-          // TODO: validate on backend
-          resolve();
+      pinPopup.then(function(oldPin) {
+        if (oldPin) {
+          var promise = User.comparePin({ id: Auth.getCurrentUser()._id }, { oldPin: oldPin }).$promise;
+          promise.then(resolve, reject);
         } else {
           reject();
         }
@@ -55,11 +58,14 @@ angular.module('qrBillingApp')
 
     this.authenticate = function (outerScope, resolve, reject) {
       var authMethod = this.getMethod();
+      console.log(authMethod);
 
       if (authMethod === 'pin') {
         this.pinAuth(outerScope, resolve, reject);
       } else if (authMethod === 'fingerprint') {
         this.fingerprintAuth(resolve, reject);
+      } else {
+        reject();
       }
 
     };

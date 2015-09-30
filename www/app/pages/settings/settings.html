@@ -1,17 +1,18 @@
 
 <ion-view view-title="Settings">
   <ion-content class="settings-wrapper">
-    <label class="item item-stable item-input item-select">
-      <div class="input-label"><strong>Auth Method</strong></div>
-      <select ng-model="selectedAuthMethod">
-        <option ng-repeat="method in availableMethods" value="{{ method.value }}">{{ method.title }}</option>
-        <!--option(value='fingerprint') Fingerprint-->
-        <!--option(ng-repeat='(cardIndex, card) in cards', value='{{card.id}}')-->
-      </select>
-    </label>
-    <label ng-if="selectedAuthMethod===&quot;pin&quot;" class="item item-input"><span class="input-label">New PIN</span>
-      <input type="text" ng-model="newPin"/>
-    </label>
-    <button ng-click="saveChanges()" class="button button-block button-positive">Save and continue</button>
+    <form name="form" ng-submit="saveChanges(form)">
+      <label class="item item-stable item-input item-select">
+        <div class="input-label"><strong>Auth Method</strong></div>
+        <select ng-model="selectedAuthMethod">
+          <option ng-repeat="method in availableMethods" value="{{ method.value }}">{{ method.title }}</option>
+        </select>
+      </label>
+      <label ng-if="selectedAuthMethod===&quot;pin&quot;" class="item item-input"><span class="input-label">New PIN</span>
+        <input type="text" name="pinInput" placeholder="Type your PIN (4-8 digits)" ng-model="inputData.newPin" ng-required="form.$submitted" ng-pattern="/^[0-9]{4,8}$/"/>
+      </label>
+      <label ng-show="form.$submitted &amp;&amp; form.pinInput.$invalid" class="item item-stable">Please insert 4-8 numbers as your PIN.</label>
+      <button type="submit" class="button button-block button-positive">Save and continue</button>
+    </form>
   </ion-content>
 </ion-view>

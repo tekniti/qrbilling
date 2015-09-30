@@ -6,10 +6,15 @@ angular.module('qrBillingApp')
     $state,
     $ionicPopup,
     PaymentAuth,
-    $cordovaTouchID
+    $cordovaTouchID,
+    Auth,
+    User
   ) {
-    console.log(PaymentAuth.data.authMethod);
-    PaymentAuth.setMethod('');
+    //PaymentAuth.setMethod('');
+
+    $scope.inputData = {
+      newPin: undefined
+    };
 
     // Options for the auth selectbox
     $scope.availableMethods = [
@@ -34,30 +39,48 @@ angular.module('qrBillingApp')
     // Check if the device is ready
     document.addEventListener('deviceready', checkFingerprintSupport, false);
 
-    var authenticate = function (resolve) {
+    $scope.saveChanges = function (form) {
+
+      if (form.$invalid) return;
+
+      var finalResolve = function () {
+        PaymentAuth.setMethod($scope.selectedAuthMethod);
+        $state.go('tabs.main');
+      };
+
       var reject = function () {
-        console.log('rejected, do a redirect...');
         $ionicPopup.alert({
           title: 'Access denied',
           template: 'Authentication failed, please try again.'
         });
       };
-      PaymentAuth.authenticate($scope, resolve, reject);
-    };
 
-    $scope.saveChanges = function () {
-      var resolve = function () {
-        console.log('resolved, nothing to do...');
+      // Saves pin into localStorage and into the db if needed
+      var tryToResolve = function () {
         // Save changes
-        PaymentAuth.setMethod($scope.selectedAuthMethod);
-        $state.go('tabs.main');
+        if ($scope.selectedAuthMethod === 'pin') {
+          var serverError = function () {
+            $ionicPopup.alert({
+              title: 'Something failed',
+              template: 'Sorry, we couldn\'t save your pin to the server, please try again later.'
+            });
+          };
+
+          var promise = User.setPin({ id: Auth.getCurrentUser()._id }, { pin: $scope.inputData.newPin }).$promise;
+          promise.then(finalResolve, serverError);
+        } else {
+          finalResolve();
+        }
       };
 
-      if (!originalAuthMethod) {
-        resolve();
+      var originalMethod = PaymentAuth.getMethod();
+
+      if (originalMethod) {
+        PaymentAuth.authenticate($scope, tryToResolve, reject);
       } else {
-        authenticate(resolve);
+        tryToResolve();
       }
+
     };
 
 

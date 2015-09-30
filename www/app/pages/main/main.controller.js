@@ -4,30 +4,15 @@ angular.module('qrBillingApp')
   .controller('MainCtrl', function (
     $cordovaBarcodeScanner,
     $cordovaTouchID,
+    $ionicPopup,
     $scope,
     $state,
     $http,
     Config,
     Auth,
-    PaymentService
+    PaymentService,
+    PaymentAuth
   ) {
-
-    $cordovaTouchID.checkSupport().then(function() {
-      // success, TouchID supported
-    }, function (error) {
-      if (error) {
-        console.log('checkSupport cb', error);
-        return;
-      }
-
-      $cordovaTouchID.authenticate("Authenticate to pay").then(function() {
-        // success
-        console.log('success');
-      }, function () {
-        // error
-        console.log('error');
-      });
-    });
 
 
     $scope.cards = PaymentService.cards;
@@ -37,7 +22,7 @@ angular.module('qrBillingApp')
     $scope.invoice = {
       _id: '55eaab46cda54f8c1403fd8e',
       due_ate: new Date().getTime(),
-      paid_date: new Date().getTime(),
+      //paid_date: new Date().getTime(),
       amount: '100',
     };
 
@@ -57,16 +42,29 @@ angular.module('qrBillingApp')
 
     $scope.startPayment = function (selectedCardId) {
       $scope.paymentInProgress = true;
-      $http.post(Config.apiUrl + '/api/invoices/pay/' + $scope.invoice._id, { cardId: selectedCardId })
-        .success(function (response) {
-          $scope.invoice = response;
-          $scope.paymentInProgress = false;
-          $scope.paymentFeedback = 'Successfully paid';
-        })
-        .error(function (response) {
-          $scope.paymentInProgress = false;
-          $scope.paymentFeedback = 'Sorry, something failed.';
+
+      var resolve = function () {
+        $http.post(Config.apiUrl + '/api/invoices/pay/' + $scope.invoice._id, { cardId: selectedCardId })
+          .success(function (response) {
+            $scope.invoice = response;
+            $scope.paymentInProgress = false;
+            $scope.paymentFeedback = 'Successfully paid';
+          })
+          .error(function (response) {
+            $scope.paymentInProgress = false;
+            $scope.paymentFeedback = 'Sorry, something failed.';
+          });
+      };
+
+      var reject = function () {
+        $scope.paymentInProgress = false;
+        $ionicPopup.alert({
+          title: 'Access denied',
+          template: 'Authentication failed, please try again.'
         });
+      };
+
+      PaymentAuth.authenticate($scope, resolve, reject);
     };
 
     $scope.startScanning = function () {

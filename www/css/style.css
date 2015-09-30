@@ -1,3 +1,4 @@
-label.feedback{background-color:#e8e8e8}.spinner.spinner-in-button svg{margin-bottom:-8px}
+label.feedback{background-color:#e8e8e8}.spinner.spinner-in-button svg{margin-bottom:-8px}.popup-body input{border:1px solid grey}
 
 .payment-wrapper input.ng-invalid{background-color:rgba(255,0,0,.13);-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;padding:0 6px}.payment-wrapper i.icon.ion-trash-a{cursor:pointer}.payment-wrapper i.icon.ion-trash-a:hover{color:red}
+.settings-wrapper input.ng-invalid{border:1px solid red}

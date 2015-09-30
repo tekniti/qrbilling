@@ -1,13 +1,17 @@
 ion-view(view-title='Settings')
   ion-content.settings-wrapper
-    label.item.item-stable.item-input.item-select
-      .input-label
-        strong Auth Method
-      select(ng-model='selectedAuthMethod')
-        option(ng-repeat='method in availableMethods', value='{{ method.value }}') {{ method.title }}
-        //option(value='fingerprint') Fingerprint
-        //option(ng-repeat='(cardIndex, card) in cards', value='{{card.id}}')
-    label.item.item-input(ng-if='selectedAuthMethod==="pin"')
-      span.input-label New PIN
-      input(type='text', ng-model='newPin')
-    button.button.button-block.button-positive(ng-click="saveChanges()") Save and continue
+    form(name='form', ng-submit='saveChanges(form)')
+      label.item.item-stable.item-input.item-select
+        .input-label
+          strong Auth Method
+        select(ng-model='selectedAuthMethod')
+          option(ng-repeat='method in availableMethods', value='{{ method.value }}') {{ method.title }}
+      label.item.item-input(ng-if='selectedAuthMethod==="pin"')
+        span.input-label New PIN
+        input(type='text', name='pinInput', placeholder='Type your PIN (4-8 digits)',
+          ng-model='inputData.newPin',
+          ng-required='form.$submitted',
+          ng-pattern='/^[0-9]{4,8}$/')
+
+      label.item.item-stable(ng-show='form.$submitted && form.pinInput.$invalid') Please insert 4-8 numbers as your PIN.
+      button.button.button-block.button-positive(type='submit') Save and continue
