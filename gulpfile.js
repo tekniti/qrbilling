@@ -21,7 +21,7 @@ var paths = {
 /** MY PART **/
 
 gulp.task('default', ['watch']);
-gulp.task('build', ['clean', 'moveJs', 'ngConstant', 'injectJs', 'moveJade', 'moveSass']);
+gulp.task('build', ['clean', 'moveJs', 'ngConstant', 'moveJade', 'moveSass']);
 
 gulp.task('watch', ['build'], function() {
   gulp.watch(paths.sass, ['sass']);
@@ -64,20 +64,20 @@ gulp.task('moveJs', function() {
 });
 
 // Inject JS
-gulp.task('injectJs', ['moveJs'], function () {
-  console.log(paths.targetFolder + '/../index.html', paths.targetFolder + '/**/*.js');
-
-  var options = {
-    read: false
-  };
-  var target = gulp.src(paths.targetFolder + '/../index.html');
-  var sources = gulp.src([paths.targetFolder + '/**/*.js'], options);
-
-  var injectOptions = {relative: true};
-
-  return target.pipe(inject(sources, injectOptions))
-    .pipe(gulp.dest(paths.targetFolder + '/../'));
-});
+//gulp.task('injectJs', ['moveJs'], function () {
+//  console.log(paths.targetFolder + '/../index.html', paths.targetFolder + '/**/*.js');
+//
+//  var options = {
+//    read: false
+//  };
+//  var target = gulp.src(paths.targetFolder + '/../index.html');
+//  var sources = gulp.src([paths.targetFolder + '/**/*.js'], options);
+//
+//  var injectOptions = {relative: true};
+//
+//  return target.pipe(inject(sources, injectOptions))
+//    .pipe(gulp.dest(paths.targetFolder + '/../'));
+//});
 
 // Jade
 gulp.task('moveJade', function() {

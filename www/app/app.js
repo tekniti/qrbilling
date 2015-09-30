@@ -123,7 +123,6 @@ angular.module('qrBillingApp', [
         event.preventDefault();
         $state.go('signin');
       } else if (next.name !== 'tabs.settings' && loggedIn && !PaymentAuth.getMethod()) {
-        console.log('no paymentMethod');
         $state.go('tabs.settings');
         event.preventDefault();
         //return false;

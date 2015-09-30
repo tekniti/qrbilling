@@ -3,7 +3,7 @@
   <ion-content class="settings-wrapper">
     <form name="form" ng-submit="saveChanges(form)">
       <label class="item item-stable item-input item-select">
-        <div class="input-label"><strong>Auth Method</strong></div>
+        <div class="input-label"><strong>Auth Methods</strong></div>
         <select ng-model="selectedAuthMethod">
           <option ng-repeat="method in availableMethods" value="{{ method.value }}">{{ method.title }}</option>
         </select>

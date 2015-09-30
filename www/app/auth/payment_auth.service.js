@@ -58,7 +58,6 @@ angular.module('qrBillingApp')
 
     this.authenticate = function (outerScope, resolve, reject) {
       var authMethod = this.getMethod();
-      console.log(authMethod);
 
       if (authMethod === 'pin') {
         this.pinAuth(outerScope, resolve, reject);

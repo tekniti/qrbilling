@@ -27,6 +27,14 @@ You can set the environment like `ENV=staging gulp build`
 ## Deploy the app
 `make deploy`
 
+## iOS9 security
+These lines needs to be added to qrbilling-Info.plist in the platforms folder:  
+`<key>NSAppTransportSecurity</key>
+ <dict>
+     <key>NSAllowsArbitraryLoads</key>
+     <true/>
+ </dict>`
+
 
 
 

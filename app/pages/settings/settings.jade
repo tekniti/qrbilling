@@ -3,7 +3,7 @@ ion-view(view-title='Settings')
     form(name='form', ng-submit='saveChanges(form)')
       label.item.item-stable.item-input.item-select
         .input-label
-          strong Auth Method
+          strong Auth Methods
         select(ng-model='selectedAuthMethod')
           option(ng-repeat='method in availableMethods', value='{{ method.value }}') {{ method.title }}
       label.item.item-input(ng-if='selectedAuthMethod==="pin"')

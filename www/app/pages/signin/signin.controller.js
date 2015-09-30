@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('qrBillingApp')
-  .controller('SigninCtrl', function ($scope, Auth, $state, $cordovaTouchID, $ionicPopup) {
+  .controller('SigninCtrl', function ($scope, Auth, $state, $ionicPopup) {
 
     $scope.user = {
       email: 'test@test.com',
@@ -9,9 +9,6 @@ angular.module('qrBillingApp')
     };
 
     $scope.signIn = function (user) {
-      //// TODO: just test
-      //touchIdFunc();
-      //return;
       if (!user) {
         $scope.msg = 'Invalid credentials.';
         return;
@@ -28,7 +25,7 @@ angular.module('qrBillingApp')
         $state.go('tabs.main');
       })
       .catch( function(err) {
-        console.log('Catched error at signin process: ', err);
+        console.log('Catched error at signin process: ', err, JSON.stringify(err));
         $scope.msg = 'Invalid email or password';
       });
 
