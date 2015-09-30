@@ -8,7 +8,6 @@ angular.module('qrBillingApp')
       password: 'test',
     };
 
-
     $scope.signIn = function (user) {
       //// TODO: just test
       //touchIdFunc();

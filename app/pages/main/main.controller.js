@@ -3,7 +3,6 @@
 angular.module('qrBillingApp')
   .controller('MainCtrl', function (
     $cordovaBarcodeScanner,
-    $cordovaTouchID,
     $ionicPopup,
     $scope,
     $state,

@@ -1,13 +1,12 @@
 'use strict';
 
 angular.module('qrBillingApp')
-  .controller('SigninCtrl', function ($scope, Auth, $state, $cordovaTouchID, $ionicPopup) {
+  .controller('SigninCtrl', function ($scope, Auth, $state, $ionicPopup) {
 
     $scope.user = {
       email: 'test@test.com',
       password: 'test',
     };
-
 
     $scope.signIn = function (user) {
       //// TODO: just test
