@@ -2,7 +2,6 @@ gulp-build:
 	ENV=staging gulp build
 	gulp build
 
-
 deploy:
 	make gulp-build
 	ionic build android

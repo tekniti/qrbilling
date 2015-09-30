@@ -23,18 +23,12 @@ You can set the environment like `ENV=staging gulp build`
  - development-device (in this scenario we're using a real device in the same network)  
  - staging   
  - production  
-
-
+ 
 ## Deploy the app
-Use the `rhc` cli tool to work with openshift
-Ssh to the remote server `ssh 55e74d532d527112a90001b3@qrbillingweb-qrbilling.rhcloud.com`
+`make deploy`
 
-## MongoDB usefulness
-`> show dbs`  
-`> use qrbillingweb`  
-`> show collections`  
-`> db.users.find({email: 'test@test.com'})`
-`> db.users.update({email:'test@test.com'}, {$set: {stripeCustomerId: undefined}})`
+
+
 
 
 
